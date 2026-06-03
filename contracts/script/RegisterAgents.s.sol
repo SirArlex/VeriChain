@@ -27,8 +27,7 @@ contract RegisterAgents is Script {
 
     // Where each agent's registration JSON is served from. These files live in
     // client/public/agents/ and are deployed by Vercel at the site root.
-    string constant BASE_URI = "https://verichain-eight.vercel.app/agents/";
-
+    string constant BASE_URI = "https://veri-chain-client.vercel.app/agents/";
     function run() external {
         uint256 deployerPrivateKey = vm.envUint("DEPLOYER_PRIVATE_KEY");
 

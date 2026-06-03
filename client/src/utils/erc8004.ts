@@ -26,11 +26,11 @@ const MANTLE_SEPOLIA_EXPLORER = 'https://explorer.sepolia.mantle.xyz';
  * A value of null means "not yet registered" and the UI hides the badge.
  */
 export const AGENT_IDS: Record<AgentName, number | null> = {
-  METADATA: 103,
-  OWNERSHIP: 104,
-  COMPLIANCE: 105,
-  FRAUD_DETECTION: 106,
-  RISK_SCORING: 107,
+  METADATA: 108,
+  OWNERSHIP: 109,
+  COMPLIANCE: 110,
+  FRAUD_DETECTION: 111,
+  RISK_SCORING: 112,
 };
 
 /** True once an agent has a registered on-chain identity. */
