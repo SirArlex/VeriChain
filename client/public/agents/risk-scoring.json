@@ -2,9 +2,9 @@
   "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
   "name": "VeriChain Risk Scoring Agent",
   "description": "Aggregates a composite risk score from all upstream agents to produce VeriChain's final tokenization-readiness verdict.",
-  "image": "https://verichain-eight.vercel.app/agents/risk-scoring.png",
+  "image": "https://veri-chain-client.vercel.app/agents/risk-scoring.png",
   "services": [
-    { "name": "web", "endpoint": "https://verichain-eight.vercel.app/agents" }
+    { "name": "web", "endpoint": "https://veri-chain-client.vercel.app/agents" }
   ],
   "active": true,
   "supportedTrust": ["reputation"]

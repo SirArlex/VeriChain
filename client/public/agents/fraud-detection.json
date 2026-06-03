@@ -2,9 +2,9 @@
   "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
   "name": "VeriChain Fraud Detection Agent",
   "description": "Performs fraud pattern analysis and duplicate/suspicious-structure detection on real-world-asset documents.",
-  "image": "https://verichain-eight.vercel.app/agents/fraud-detection.png",
+  "image": "https://veri-chain-client.vercel.app/agents/fraud-detection.png",
   "services": [
-    { "name": "web", "endpoint": "https://verichain-eight.vercel.app/agents" }
+    { "name": "web", "endpoint": "https://veri-chain-client.vercel.app/agents" }
   ],
   "active": true,
   "supportedTrust": ["reputation"]
