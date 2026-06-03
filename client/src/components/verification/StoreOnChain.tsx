@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link2, Loader2, CheckCircle, AlertCircle, ExternalLink, Shield } from 'lucide-react';
 import { useAccount } from 'wagmi';
@@ -11,15 +12,35 @@ import Badge from '../ui/Badge';
 interface StoreOnChainProps {
   result: VerificationResult;
   onStored?: (txHash: string) => void;
+  /** When true, automatically stores the proof on-chain once a wallet is
+   *  connected and the contract is configured (no button click needed). */
+  autoStore?: boolean;
 }
 
-export default function StoreOnChain({ result, onStored }: StoreOnChainProps) {
+export default function StoreOnChain({ result, onStored, autoStore = false }: StoreOnChainProps) {
   const { isConnected } = useAccount();
   const { proofState, txHash, error, storeProof } = useStoreProof();
   const contractConfigured = isContractConfigured();
 
   const alreadyStored = !!result.onChainTxHash || proofState === 'confirmed';
   const displayTxHash = result.onChainTxHash || txHash;
+
+  // Auto-store: fire once when conditions are met. A ref guards against
+  // repeated triggers across re-renders.
+  const autoTriggered = useRef(false);
+  useEffect(() => {
+    if (
+      autoStore &&
+      !autoTriggered.current &&
+      isConnected &&
+      contractConfigured &&
+      !alreadyStored &&
+      proofState === 'idle'
+    ) {
+      autoTriggered.current = true;
+      void storeProof(result);
+    }
+  }, [autoStore, isConnected, contractConfigured, alreadyStored, proofState, result, storeProof]);
 
   const handleStore = async () => {
     await storeProof(result);

@@ -94,7 +94,7 @@ export default function DashboardPage() {
               {/* Store on Mantle — shown after verification completes */}
               {isCompleted && verificationResult && (
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-                  <StoreOnChain result={verificationResult} />
+                  <StoreOnChain result={verificationResult} autoStore />
                 </motion.div>
               )}
             </div>
