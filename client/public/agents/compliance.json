@@ -1,0 +1,11 @@
+{
+  "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+  "name": "VeriChain Compliance Agent",
+  "description": "Assesses tokenization readiness and regulatory completeness for real-world assets in VeriChain's due-diligence pipeline.",
+  "image": "https://verichain-eight.vercel.app/agents/compliance.png",
+  "services": [
+    { "name": "web", "endpoint": "https://verichain-eight.vercel.app/agents" }
+  ],
+  "active": true,
+  "supportedTrust": ["reputation"]
+}

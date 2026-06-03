@@ -1,0 +1,11 @@
+{
+  "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+  "name": "VeriChain Ownership Agent",
+  "description": "Validates chain of title and party identification for real-world-asset documents in VeriChain's due-diligence pipeline.",
+  "image": "https://verichain-eight.vercel.app/agents/ownership.png",
+  "services": [
+    { "name": "web", "endpoint": "https://verichain-eight.vercel.app/agents" }
+  ],
+  "active": true,
+  "supportedTrust": ["reputation"]
+}

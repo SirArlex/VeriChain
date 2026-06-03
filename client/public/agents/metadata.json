@@ -1,0 +1,11 @@
+{
+  "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+  "name": "VeriChain Metadata Agent",
+  "description": "Detects document tampering and structural anomalies in real-world-asset documents during VeriChain's autonomous due-diligence pipeline.",
+  "image": "https://verichain-eight.vercel.app/agents/metadata.png",
+  "services": [
+    { "name": "web", "endpoint": "https://verichain-eight.vercel.app/agents" }
+  ],
+  "active": true,
+  "supportedTrust": ["reputation"]
+}
