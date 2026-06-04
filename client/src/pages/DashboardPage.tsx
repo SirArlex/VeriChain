@@ -31,7 +31,7 @@ export default function DashboardPage() {
   return (
     <RootLayout>
       <div className="min-h-screen pt-24 pb-16">
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
 
           {/* Header */}
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
@@ -48,7 +48,7 @@ export default function DashboardPage() {
                 </div>
                 <p className="text-white/40 text-sm ml-11">Upload a real estate document to begin AI-powered due diligence</p>
               </div>
-              <Badge variant="blue" dot>Phase 6 — Mantle Integration</Badge>
+              <Badge variant="blue" dot>Mantle Network</Badge>
             </div>
           </motion.div>
 

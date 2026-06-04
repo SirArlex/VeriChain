@@ -57,7 +57,7 @@ export default function AgentReputationPage() {
   return (
     <RootLayout>
       <div className="min-h-screen pt-24 pb-16">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
           {/* Header */}
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
@@ -77,7 +77,7 @@ export default function AgentReputationPage() {
                 </p>
               </div>
               <div className="flex items-center gap-3">
-                <Badge variant="purple" dot>Phase 7 — Benchmarking</Badge>
+                <Badge variant="purple" dot>Live Benchmarking</Badge>
                 <button
                   onClick={handleRefresh}
                   disabled={refreshing}
