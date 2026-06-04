@@ -43,7 +43,6 @@ export default function AgentReputationPage() {
   };
 
   const bestAgent = reputations.length
-<<<<<<< HEAD
     ? reputations.reduce((best, r) => (r.successRate > best.successRate ? r : best))
     : null;
 
@@ -54,27 +53,12 @@ export default function AgentReputationPage() {
     ? ranAgents.reduce((fastest, r) =>
         r.averageExecutionTimeMs < fastest.averageExecutionTimeMs ? r : fastest
       )
-=======
-    ? reputations.reduce((best, r) => r.successRate > best.successRate ? r : best)
-    : null;
-
-  const fastestAgent = reputations.length
-    ? reputations
-        .filter((r) => r.totalRuns > 0)
-        .reduce((fastest, r) =>
-          r.averageExecutionTimeMs < fastest.averageExecutionTimeMs ? r : fastest
-        )
->>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
     : null;
 
   return (
     <RootLayout>
       <div className="min-h-screen pt-24 pb-16">
-<<<<<<< HEAD
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-=======
-        <div className="max-w-7xl mx-auto px-6">
->>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
 
           {/* Header */}
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
@@ -94,11 +78,7 @@ export default function AgentReputationPage() {
                 </p>
               </div>
               <div className="flex items-center gap-3">
-<<<<<<< HEAD
                 <Badge variant="purple" dot>Live Benchmarking</Badge>
-=======
-                <Badge variant="purple" dot>Phase 7 — Benchmarking</Badge>
->>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
                 <button
                   onClick={handleRefresh}
                   disabled={refreshing}
@@ -114,17 +94,10 @@ export default function AgentReputationPage() {
           {loading ? (
             <div className="space-y-6">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-<<<<<<< HEAD
                 {[...Array(4)].map((_, i) => <GlassCard key={i} className="p-4 h-24 animate-pulse"></GlassCard>)}
               </div>
               <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                 {[...Array(5)].map((_, i) => <GlassCard key={i} className="p-5 h-64 animate-pulse"></GlassCard>)}
-=======
-                {[...Array(4)].map((_, i) => <GlassCard key={i} className="p-4 h-24 animate-pulse" />)}
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-                {[...Array(5)].map((_, i) => <GlassCard key={i} className="p-5 h-64 animate-pulse" />)}
->>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
               </div>
             </div>
           ) : error ? (

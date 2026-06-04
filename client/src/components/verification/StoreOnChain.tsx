@@ -1,27 +1,17 @@
-<<<<<<< HEAD
 import { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link2, Loader2, CheckCircle, AlertCircle, ExternalLink, Shield, ShieldCheck } from 'lucide-react';
-=======
-import { motion, AnimatePresence } from 'framer-motion';
-import { Link2, Loader2, CheckCircle, AlertCircle, ExternalLink, Shield } from 'lucide-react';
->>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
 import { useAccount } from 'wagmi';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { VerificationResult } from '../../types';
 import { useStoreProof } from '../../hooks/useStoreProof';
-<<<<<<< HEAD
 import { isContractConfigured } from '../../utils/contract';
-=======
-import { CONTRACT_ADDRESS } from '../../utils/contract';
->>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
 import GlassCard from '../ui/GlassCard';
 import Badge from '../ui/Badge';
 
 interface StoreOnChainProps {
   result: VerificationResult;
   onStored?: (txHash: string) => void;
-<<<<<<< HEAD
   /** When true, automatically stores the proof on-chain once a wallet is
    *  connected and the contract is configured (no button click needed). */
   autoStore?: boolean;
@@ -54,33 +44,6 @@ export default function StoreOnChain({ result, onStored, autoStore = false }: St
 
   const handleStore = async () => {
     await storeProof(result);
-=======
-}
-
-/**
- * StoreOnChain — the button and UI for writing verification proofs to Mantle.
- *
- * States:
- * idle          → Show "Store on Mantle" button
- * switching_chain → Switching wallet to Mantle Sepolia
- * confirming    → Waiting for user to confirm in wallet
- * pending       → Tx submitted, waiting for block confirmation
- * confirmed     → Tx confirmed, proof stored on-chain
- * error         → Something went wrong
- *
- * If the verification already has an onChainTxHash, show the explorer link instead.
- */
-export default function StoreOnChain({ result, onStored }: StoreOnChainProps) {
-  const { isConnected } = useAccount();
-  const { proofState, txHash, error, storeProof } = useStoreProof();
-
-  const alreadyStored = !!result.onChainTxHash || proofState === 'confirmed';
-  const displayTxHash = result.onChainTxHash || txHash;
-  const contractConfigured = !!CONTRACT_ADDRESS && CONTRACT_ADDRESS !== '';
-
-  const handleStore = async () => {
-    const tx = await storeProof(result);
->>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
     if (txHash) onStored?.(txHash);
   };
 
@@ -92,19 +55,8 @@ export default function StoreOnChain({ result, onStored }: StoreOnChainProps) {
       </div>
 
       <AnimatePresence mode="wait">
-<<<<<<< HEAD
         {alreadyStored && displayTxHash ? (
           <motion.div key="stored" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
-=======
-        {/* Already stored */}
-        {alreadyStored && displayTxHash ? (
-          <motion.div
-            key="stored"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="space-y-3"
-          >
->>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
             <div className="flex items-center gap-2">
               <CheckCircle className="w-4 h-4 text-green-400" />
               <Badge variant="green" dot>Stored on Mantle</Badge>
@@ -124,10 +76,6 @@ export default function StoreOnChain({ result, onStored }: StoreOnChainProps) {
             </a>
           </motion.div>
         ) : !contractConfigured ? (
-<<<<<<< HEAD
-=======
-          /* Contract not deployed yet */
->>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
           <motion.div key="no-contract" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-3 mb-3">
               <p className="text-amber-400 text-xs font-semibold mb-1">Contract Not Deployed</p>
@@ -141,15 +89,10 @@ export default function StoreOnChain({ result, onStored }: StoreOnChainProps) {
             </div>
           </motion.div>
         ) : !isConnected ? (
-<<<<<<< HEAD
-=======
-          /* Wallet not connected */
->>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
           <motion.div key="no-wallet" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
             <p className="text-white/40 text-sm">Connect your wallet to store this verification proof on Mantle blockchain.</p>
             <ConnectButton />
           </motion.div>
-<<<<<<< HEAD
         ) : proofState === 'duplicate' ? (
           <motion.div key="duplicate" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
             <div className="flex items-start gap-2 text-amber-400 text-sm">
@@ -159,31 +102,16 @@ export default function StoreOnChain({ result, onStored }: StoreOnChainProps) {
             <p className="text-white/40 text-xs">VeriChain enforces one proof per document at the smart-contract level — the same real-world asset cannot be verified on-chain twice.</p>
           </motion.div>
         ) : proofState === 'error' ? (
-=======
-        ) : proofState === 'error' ? (
-          /* Error state */
->>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
           <motion.div key="error" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
             <div className="flex items-center gap-2 text-red-400 text-sm">
               <AlertCircle className="w-4 h-4" />
               <span>{error}</span>
             </div>
-<<<<<<< HEAD
             <button onClick={handleStore} className="w-full py-2.5 rounded-lg border border-white/10 text-white/50 hover:text-white text-sm transition-colors">
-=======
-            <button
-              onClick={handleStore}
-              className="w-full py-2.5 rounded-lg border border-white/10 text-white/50 hover:text-white text-sm transition-colors"
-            >
->>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
               Try Again
             </button>
           </motion.div>
         ) : proofState === 'idle' ? (
-<<<<<<< HEAD
-=======
-          /* Ready to store */
->>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
           <motion.div key="idle" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
             <div className="space-y-2 text-xs font-mono">
               {[
@@ -198,7 +126,6 @@ export default function StoreOnChain({ result, onStored }: StoreOnChainProps) {
                 </div>
               ))}
             </div>
-<<<<<<< HEAD
             <button onClick={handleStore} className="btn-primary w-full flex items-center justify-center gap-2 py-2.5 text-sm">
               <Link2 className="w-4 h-4" />
               Store Proof on Mantle
@@ -206,21 +133,6 @@ export default function StoreOnChain({ result, onStored }: StoreOnChainProps) {
             <p className="text-white/20 text-xs text-center">This will open your wallet to confirm the transaction</p>
           </motion.div>
         ) : (
-=======
-            <button
-              onClick={handleStore}
-              className="btn-primary w-full flex items-center justify-center gap-2 py-2.5 text-sm"
-            >
-              <Link2 className="w-4 h-4" />
-              Store Proof on Mantle
-            </button>
-            <p className="text-white/20 text-xs text-center">
-              This will open your wallet to confirm the transaction
-            </p>
-          </motion.div>
-        ) : (
-          /* Processing states */
->>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
           <motion.div key="processing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
             <div className="flex items-center gap-3">
               <Loader2 className="w-5 h-5 text-blue-400 animate-spin" />

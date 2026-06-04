@@ -5,10 +5,7 @@ interface BadgeProps {
   variant?: 'blue' | 'cyan' | 'green' | 'red' | 'amber' | 'purple' | 'ghost';
   size?: 'sm' | 'md';
   dot?: boolean;
-<<<<<<< HEAD
   className?: string;
-=======
->>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
 }
 
 const variantMap = {
@@ -36,22 +33,15 @@ export default function Badge({
   variant = 'blue',
   size = 'sm',
   dot = false,
-<<<<<<< HEAD
   className = '',
-=======
->>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
 }: BadgeProps) {
   return (
     <span
       className={clsx(
         'inline-flex items-center gap-1.5 border rounded-full font-mono font-medium',
         variantMap[variant],
-<<<<<<< HEAD
         size === 'sm' ? 'px-2.5 py-0.5 text-xs' : 'px-3 py-1 text-sm',
         className
-=======
-        size === 'sm' ? 'px-2.5 py-0.5 text-xs' : 'px-3 py-1 text-sm'
->>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
       )}
     >
       {dot && (

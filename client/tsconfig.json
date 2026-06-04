@@ -11,17 +11,11 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-<<<<<<< HEAD
     "strict": false,
     "noImplicitAny": false,
     "strictNullChecks": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-=======
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
->>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
@@ -31,8 +25,4 @@
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f

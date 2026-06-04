@@ -72,11 +72,7 @@ export default function VerificationDetailPage() {
   return (
     <RootLayout>
       <div className="min-h-screen pt-24 pb-16">
-<<<<<<< HEAD
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-=======
-        <div className="max-w-6xl mx-auto px-6">
->>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
 
           {/* Header */}
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">

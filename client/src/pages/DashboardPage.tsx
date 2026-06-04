@@ -31,11 +31,7 @@ export default function DashboardPage() {
   return (
     <RootLayout>
       <div className="min-h-screen pt-24 pb-16">
-<<<<<<< HEAD
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-=======
-        <div className="max-w-6xl mx-auto px-6">
->>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
 
           {/* Header */}
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
@@ -52,11 +48,7 @@ export default function DashboardPage() {
                 </div>
                 <p className="text-white/40 text-sm ml-11">Upload a real estate document to begin AI-powered due diligence</p>
               </div>
-<<<<<<< HEAD
               <Badge variant="blue" dot>Mantle Network</Badge>
-=======
-              <Badge variant="blue" dot>Phase 6 — Mantle Integration</Badge>
->>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
             </div>
           </motion.div>
 
@@ -102,11 +94,7 @@ export default function DashboardPage() {
               {/* Store on Mantle — shown after verification completes */}
               {isCompleted && verificationResult && (
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-<<<<<<< HEAD
                   <StoreOnChain result={verificationResult} autoStore />
-=======
-                  <StoreOnChain result={verificationResult} />
->>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
                 </motion.div>
               )}
             </div>
