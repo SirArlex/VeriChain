@@ -43,13 +43,13 @@ export class MetadataAgent extends BaseAgent {
 
       const userContent = `File: ${fileName} | Size: ${(fileSize/1024).toFixed(1)}KB | Characters: ${extractedText.length}
 Rule flags found: ${deterministicFlags.join(', ') || 'none'}
-Text sample: ${extractedText.slice(0, 600)}
+Document text: ${extractedText.slice(0, 6000)}
 
 Return this exact JSON structure:
 {
   "suspiciousIndicators": ["indicator 1", "indicator 2"],
   "documentStructureScore": 20,
-  "explanation": "3-4 sentences explaining the metadata findings, why the score was assigned, what specific anomalies were detected, and what this means for the document's authenticity.",
+  "explanation": "A detailed multi-part analysis (4-6 sentences). First state the specific structural and metadata findings, citing concrete evidence from the document text (e.g. exact phrases, missing sections, formatting irregularities). Then explain precisely why the score was assigned, which anomalies are most significant, and how each affects the document's authenticity. Finally state what this means for whether the document can be trusted as genuine. Be specific and reference actual content — avoid generic statements.",
   "flags": ["FLAG_1", "FLAG_2"]
 }`;
 
