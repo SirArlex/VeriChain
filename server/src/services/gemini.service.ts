@@ -15,8 +15,13 @@ export class GeminiService {
         model: 'gemini-2.5-flash',
         generationConfig: {
           temperature: 0.3,
-          maxOutputTokens: 8192,
-        },
+          maxOutputTokens: 4096,
+          // Limit internal "thinking" so the model returns the answer quickly
+          // instead of spending the whole budget reasoning and timing out.
+          thinkingConfig: {
+            thinkingBudget: 0,
+          },
+        } as any,
       });
     }
     return GeminiService.model;
@@ -26,9 +31,10 @@ export class GeminiService {
     const model = GeminiService.getModel();
     const fullPrompt = `${systemPrompt}\n\n${userContent}`;
 
-    // 15 second timeout per Gemini call — prevents slow agents blocking pipeline
+    // 45 second timeout per Gemini call — 2.5-flash needs time to think AND
+    // produce the detailed analysis the prompts now request.
     const timeoutPromise = new Promise<never>((_, reject) =>
-      setTimeout(() => reject(new Error('Gemini request timed out after 15s')), 15000)
+      setTimeout(() => reject(new Error('Gemini request timed out after 45s')), 45000)
     );
 
     try {
