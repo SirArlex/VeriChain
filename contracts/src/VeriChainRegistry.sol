@@ -77,6 +77,7 @@ contract VeriChainRegistry {
     error InvalidVerificationId();
     error InvalidDocumentHash();
     error InvalidRiskScore(uint8 score);
+    error DocumentAlreadyVerified(bytes32 documentHash);
 
     // ── Modifiers ──────────────────────────────────────────────────────
 
@@ -120,6 +121,9 @@ contract VeriChainRegistry {
         if (documentHash == bytes32(0)) revert InvalidDocumentHash();
         if (riskScore > 100) revert InvalidRiskScore(riskScore);
         if (proofs[verificationId].exists) revert VerificationAlreadyExists(verificationId);
+        // Core anti-double-tokenization rule: one on-chain proof per document.
+        if (documentVerifications[documentHash].length > 0)
+            revert DocumentAlreadyVerified(documentHash);
 
         // Store proof
         proofs[verificationId] = VerificationProof({
@@ -159,6 +163,19 @@ contract VeriChainRegistry {
         returns (VerificationProof memory)
     {
         return proofs[verificationId];
+    }
+
+    /**
+     * @notice True if this document already has an on-chain proof.
+     *         Used by the frontend to block re-tokenization before
+     *         prompting the wallet.
+     */
+    function isDocumentVerified(bytes32 documentHash)
+        external
+        view
+        returns (bool)
+    {
+        return documentVerifications[documentHash].length > 0;
     }
 
     /**

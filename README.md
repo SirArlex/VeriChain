@@ -187,7 +187,7 @@ VERICHAIN_CONTRACT_ADDRESS=<your VeriChainRegistry address>
 VITE_API_URL=https://chinkinss-verichain.hf.space
 VITE_MANTLE_RPC_URL=https://rpc.sepolia.mantle.xyz
 VITE_MANTLE_CHAIN_ID=5003
-VITE_CONTRACT_ADDRESS=0x9A10454a5a40A85Cc8db2e6BDbEf1e9e0E9A8b39
+VITE_CONTRACT_ADDRESS=0x743e1166EEFa6b8ec22C077231f93a464F4a34E3
 VITE_WALLETCONNECT_PROJECT_ID=<get a free project id at https://cloud.reown.com>
 ```
 

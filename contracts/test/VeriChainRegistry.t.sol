@@ -66,13 +66,34 @@ contract VeriChainRegistryTest is Test {
     }
 
     function test_DocumentVerificationsIndex() public {
+        // One document gets exactly one on-chain proof.
         registry.storeVerification(DOC_HASH, 25, VeriChainRegistry.VerificationStatus.COMPLETED, AGENT_HASH, "ver-001");
-        registry.storeVerification(DOC_HASH, 30, VeriChainRegistry.VerificationStatus.COMPLETED, AGENT_HASH, "ver-002");
 
         string[] memory verIds = registry.getDocumentVerifications(DOC_HASH);
-        assertEq(verIds.length, 2);
+        assertEq(verIds.length, 1);
         assertEq(verIds[0], "ver-001");
-        assertEq(verIds[1], "ver-002");
+        assertTrue(registry.isDocumentVerified(DOC_HASH));
+    }
+
+    function test_RevertDuplicateDocument() public {
+        // Storing a SECOND proof for the same document hash must revert,
+        // even with a different verificationId. This is the core
+        // anti-double-tokenization rule.
+        registry.storeVerification(DOC_HASH, 25, VeriChainRegistry.VerificationStatus.COMPLETED, AGENT_HASH, "ver-001");
+
+        vm.expectRevert(abi.encodeWithSelector(VeriChainRegistry.DocumentAlreadyVerified.selector, DOC_HASH));
+        registry.storeVerification(DOC_HASH, 30, VeriChainRegistry.VerificationStatus.COMPLETED, AGENT_HASH, "ver-002");
+    }
+
+    function test_DifferentDocumentsAllowed() public {
+        // Different documents each get their own proof.
+        bytes32 otherDoc = keccak256("a different deed");
+        registry.storeVerification(DOC_HASH, 25, VeriChainRegistry.VerificationStatus.COMPLETED, AGENT_HASH, "ver-001");
+        registry.storeVerification(otherDoc, 40, VeriChainRegistry.VerificationStatus.COMPLETED, AGENT_HASH, "ver-002");
+
+        assertTrue(registry.isDocumentVerified(DOC_HASH));
+        assertTrue(registry.isDocumentVerified(otherDoc));
+        assertEq(registry.totalVerifications(), 2);
     }
 
     function test_PauseUnpause() public {
