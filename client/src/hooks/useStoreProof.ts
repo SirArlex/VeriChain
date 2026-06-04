@@ -70,7 +70,7 @@ export function useStoreProof(): UseStoreProofReturn {
           abi: VERICHAIN_REGISTRY_ABI,
           functionName: 'isDocumentVerified',
           args: [documentHash],
-        });
+        } as any);
         if (alreadyVerified) {
           setProofState('duplicate');
           return;
