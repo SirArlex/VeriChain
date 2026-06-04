@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link2, Loader2, CheckCircle, AlertCircle, ExternalLink, Shield } from 'lucide-react';
+import { Link2, Loader2, CheckCircle, AlertCircle, ExternalLink, Shield, ShieldCheck } from 'lucide-react';
 import { useAccount } from 'wagmi';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { VerificationResult } from '../../types';
@@ -92,6 +92,14 @@ export default function StoreOnChain({ result, onStored, autoStore = false }: St
           <motion.div key="no-wallet" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
             <p className="text-white/40 text-sm">Connect your wallet to store this verification proof on Mantle blockchain.</p>
             <ConnectButton />
+          </motion.div>
+        ) : proofState === 'duplicate' ? (
+          <motion.div key="duplicate" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
+            <div className="flex items-start gap-2 text-amber-400 text-sm">
+              <ShieldCheck className="w-4 h-4 mt-0.5 shrink-0" />
+              <span>This asset already has an on-chain verification proof. Re-tokenization is blocked to prevent double-tokenization.</span>
+            </div>
+            <p className="text-white/40 text-xs">VeriChain enforces one proof per document at the smart-contract level — the same real-world asset cannot be verified on-chain twice.</p>
           </motion.div>
         ) : proofState === 'error' ? (
           <motion.div key="error" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">

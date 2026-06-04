@@ -49,6 +49,13 @@ export const VERICHAIN_REGISTRY_ABI = [
   },
   {
     type: 'function',
+    name: 'isDocumentVerified',
+    stateMutability: 'view',
+    inputs: [{ name: 'documentHash', type: 'bytes32' }],
+    outputs: [{ type: 'bool' }],
+  },
+  {
+    type: 'function',
     name: 'totalVerifications',
     stateMutability: 'view',
     inputs: [],
