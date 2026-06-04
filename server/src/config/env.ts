@@ -27,6 +27,11 @@ export const config = {
   gemini: {
     apiKey: optionalEnv('GEMINI_API_KEY', ''),
   },
+
+  openRouter: {
+    apiKey: optionalEnv('OPENROUTER_API_KEY', ''),
+    model: optionalEnv('OPENROUTER_MODEL', 'google/gemini-2.0-flash-001'),
+  },
   
   mantle: {
     rpcUrl: optionalEnv('MANTLE_RPC_URL', 'https://rpc.sepolia.mantle.xyz'),

@@ -1,51 +1,67 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
 import { config } from '../config/env';
 
+/**
+ * GeminiService — despite the name (kept for compatibility), this routes all
+ * model calls through OpenRouter's OpenAI-compatible API. The class name and
+ * method signatures are unchanged so the agents need no modification.
+ *
+ * Requires OPENROUTER_API_KEY in the environment. The model is configurable
+ * via OPENROUTER_MODEL (defaults to a fast, JSON-reliable Gemini Flash model
+ * served through OpenRouter).
+ */
 export class GeminiService {
-  private static client: GoogleGenerativeAI | null = null;
-  private static model: any = null;
-
-  private static getModel() {
-    if (!GeminiService.model) {
-      if (!config.gemini.apiKey) {
-        throw new Error('GEMINI_API_KEY is not set in environment variables');
-      }
-      GeminiService.client = new GoogleGenerativeAI(config.gemini.apiKey);
-      GeminiService.model = GeminiService.client.getGenerativeModel({
-        model: 'gemini-2.5-flash',
-        generationConfig: {
-          temperature: 0.3,
-          maxOutputTokens: 4096,
-          // Limit internal "thinking" so the model returns the answer quickly
-          // instead of spending the whole budget reasoning and timing out.
-          thinkingConfig: {
-            thinkingBudget: 0,
-          },
-        } as any,
-      });
-    }
-    return GeminiService.model;
-  }
+  private static readonly ENDPOINT = 'https://openrouter.ai/api/v1/chat/completions';
 
   static async prompt(systemPrompt: string, userContent: string): Promise<string> {
-    const model = GeminiService.getModel();
-    const fullPrompt = `${systemPrompt}\n\n${userContent}`;
+    if (!config.openRouter.apiKey) {
+      throw new Error('OPENROUTER_API_KEY is not set in environment variables');
+    }
 
-    // 45 second timeout per Gemini call — 2.5-flash needs time to think AND
-    // produce the detailed analysis the prompts now request.
-    const timeoutPromise = new Promise<never>((_, reject) =>
-      setTimeout(() => reject(new Error('Gemini request timed out after 45s')), 45000)
-    );
+    // 40s timeout so a slow model can't block the pipeline indefinitely.
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 40000);
 
     try {
-      const result = await Promise.race([
-        model.generateContent(fullPrompt),
-        timeoutPromise,
-      ]);
-      return result.response.text().trim();
+      const res = await fetch(GeminiService.ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${config.openRouter.apiKey}`,
+          'Content-Type': 'application/json',
+          // OpenRouter recommends these for attribution; harmless if generic.
+          'HTTP-Referer': 'https://veri-chain-client.vercel.app',
+          'X-Title': 'VeriChain',
+        },
+        body: JSON.stringify({
+          model: config.openRouter.model,
+          temperature: 0.3,
+          max_tokens: 4096,
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: userContent },
+          ],
+        }),
+        signal: controller.signal,
+      });
+
+      if (!res.ok) {
+        const errText = await res.text().catch(() => '');
+        throw new Error(`OpenRouter ${res.status}: ${errText.slice(0, 300)}`);
+      }
+
+      const data: any = await res.json();
+      const text = data?.choices?.[0]?.message?.content;
+      if (!text || typeof text !== 'string') {
+        throw new Error('OpenRouter returned no content');
+      }
+      return text.trim();
     } catch (err: any) {
-      console.error('[GEMINI] API call failed:', err?.message);
-      throw new Error(`Gemini API error: ${err?.message ?? 'Unknown error'}`);
+      const msg = err?.name === 'AbortError'
+        ? 'OpenRouter request timed out after 40s'
+        : err?.message ?? 'Unknown error';
+      console.error('[OPENROUTER] API call failed:', msg);
+      throw new Error(`OpenRouter API error: ${msg}`);
+    } finally {
+      clearTimeout(timeout);
     }
   }
 
@@ -56,8 +72,8 @@ CRITICAL RULES:
 1. Respond ONLY with a single valid JSON object.
 2. Do NOT use markdown code fences.
 3. Start with { and end with }.
-4. Narrative fields such as "explanation" and "overallAssessment" should be thorough and detailed — follow the length guidance given in the field's description (typically 4-7 sentences). Do not truncate them.
-5. Short label/array fields (flags, indicators, verdicts, single recommendations) should stay concise.`;
+4. Narrative fields ("explanation", "overallAssessment") must be thorough and detailed — follow the length guidance in each field's description (4-7 sentences). Do NOT truncate them.
+5. Only short label/array fields (flags, indicators, verdicts) should stay concise.`;
 
     const raw = await GeminiService.prompt(jsonSystemPrompt, userContent);
 
@@ -87,12 +103,12 @@ CRITICAL RULES:
     try {
       return JSON.parse(cleaned) as T;
     } catch (err) {
-      console.error('[GEMINI] JSON parse failed. Raw:', raw.slice(0, 300));
-      throw new Error('Gemini returned invalid JSON');
+      console.error('[OPENROUTER] JSON parse failed. Raw:', raw.slice(0, 300));
+      throw new Error('OpenRouter returned invalid JSON');
     }
   }
 
   static isConfigured(): boolean {
-    return !!config.gemini.apiKey;
+    return !!config.openRouter.apiKey;
   }
 }
