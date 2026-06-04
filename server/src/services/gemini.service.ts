@@ -50,8 +50,8 @@ CRITICAL RULES:
 1. Respond ONLY with a single valid JSON object.
 2. Do NOT use markdown code fences.
 3. Start with { and end with }.
-4. The "explanation" field may be 3-4 detailed sentences.
-5. All other string fields must stay under 100 characters.`;
+4. Narrative fields such as "explanation" and "overallAssessment" should be thorough and detailed — follow the length guidance given in the field's description (typically 4-7 sentences). Do not truncate them.
+5. Short label/array fields (flags, indicators, verdicts, single recommendations) should stay concise.`;
 
     const raw = await GeminiService.prompt(jsonSystemPrompt, userContent);
 
