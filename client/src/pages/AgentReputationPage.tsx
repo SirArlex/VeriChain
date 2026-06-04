@@ -43,15 +43,16 @@ export default function AgentReputationPage() {
   };
 
   const bestAgent = reputations.length
-    ? reputations.reduce((best, r) => r.successRate > best.successRate ? r : best)
+    ? reputations.reduce((best, r) => (r.successRate > best.successRate ? r : best))
     : null;
 
-  const fastestAgent = reputations.length
-    ? reputations
-        .filter((r) => r.totalRuns > 0)
-        .reduce((fastest, r) =>
-          r.averageExecutionTimeMs < fastest.averageExecutionTimeMs ? r : fastest
-        )
+  // Guard against the FILTERED array being empty (agents exist but none have
+  // run yet) — reduce with no initial value throws on an empty array.
+  const ranAgents = reputations.filter((r) => r.totalRuns > 0);
+  const fastestAgent = ranAgents.length
+    ? ranAgents.reduce((fastest, r) =>
+        r.averageExecutionTimeMs < fastest.averageExecutionTimeMs ? r : fastest
+      )
     : null;
 
   return (
