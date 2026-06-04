@@ -46,11 +46,7 @@ export class FraudDetectionAgent extends BaseAgent {
     if (GeminiService.isConfigured() && extractedText.length > 50) {
       const systemPrompt = `You are a forensic fraud investigator specializing in real estate document fraud. Return ONLY valid JSON.`;
 
-<<<<<<< HEAD
       const userContent = `Document text: ${extractedText.slice(0, 6000)}
-=======
-      const userContent = `Document text: ${extractedText.slice(0, 700)}
->>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
 Deterministic flags already found: ${deterministicFlags.join(', ') || 'none'}
 
 Return this exact JSON structure:
@@ -58,11 +54,7 @@ Return this exact JSON structure:
   "fraudProbability": "HIGH",
   "fraudIndicators": ["specific indicator 1", "specific indicator 2", "specific indicator 3"],
   "authenticityMarkers": ["positive signal 1"],
-<<<<<<< HEAD
   "explanation": "A detailed multi-part analysis (4-6 sentences). First state the overall fraud assessment and risk level. Then describe the specific patterns or language that triggered concern (or, if clean, what indicators were checked and found absent), citing exact phrases from the document. Explain why these factors place the document at this particular risk level. Finally list the key red flags an investigator would prioritise and the recommended next action. Ground every claim in actual document content; do not speculate beyond the evidence.",
-=======
-  "explanation": "3-4 sentences explaining the fraud assessment, what specific patterns triggered concern, why this document scores at this risk level, and what the key red flags are that an investigator would act on.",
->>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
   "flags": ["FRAUD_FLAG_1", "FRAUD_FLAG_2"],
   "fraudScore": 55
 }`;
