@@ -85,6 +85,7 @@ Total flags raised: ${uniqueFlags.length}
 Key flags: ${uniqueFlags.slice(0, 6).join(', ') || 'None'}
 Tokenization ready: ${tokenizationReady}
 Agent explanations:
+<<<<<<< HEAD
 - Fraud: ${fraudFinding?.explanation?.slice(0, 600) ?? 'N/A'}
 - Compliance: ${complianceFinding?.explanation?.slice(0, 600) ?? 'N/A'}
 - Ownership: ${ownershipFinding?.explanation?.slice(0, 600) ?? 'N/A'}
@@ -92,6 +93,15 @@ Agent explanations:
 Return this exact JSON structure:
 {
   "overallAssessment": "A thorough executive summary (5-7 sentences) synthesizing every agent's findings into a single verdict. Open with what the composite score means in plain terms and the tokenization recommendation. Then identify the highest-risk factors specifically, attributing them to the agents that surfaced them (e.g. what the fraud, ownership, compliance, and metadata agents each contributed). Explain how these combined into the final weighted score. Close with a clear, actionable recommendation: proceed to tokenization, proceed with conditions, or reject pending remediation — and state the specific conditions. Reference concrete findings rather than generic risk language.",
+=======
+- Fraud: ${fraudFinding?.explanation?.slice(0, 150) ?? 'N/A'}
+- Compliance: ${complianceFinding?.explanation?.slice(0, 150) ?? 'N/A'}
+- Ownership: ${ownershipFinding?.explanation?.slice(0, 150) ?? 'N/A'}
+
+Return this exact JSON structure:
+{
+  "overallAssessment": "4-5 sentences synthesizing all agent findings into an executive summary. Explain what the score means, what the highest risk factors are, how the agents contributed to the score, and what action should be taken.",
+>>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
   "keyRisks": ["specific risk 1", "specific risk 2", "specific risk 3"],
   "recommendations": ["specific action 1", "specific action 2", "specific action 3"],
   "tokenizationVerdict": "APPROVED"

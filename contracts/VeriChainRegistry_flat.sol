@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
+// src/VeriChainRegistry.sol
+
 /**
  * @title VeriChainRegistry
  * @author VeriChain
@@ -77,10 +79,6 @@ contract VeriChainRegistry {
     error InvalidVerificationId();
     error InvalidDocumentHash();
     error InvalidRiskScore(uint8 score);
-<<<<<<< HEAD
-    error DocumentAlreadyVerified(bytes32 documentHash);
-=======
->>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
 
     // ── Modifiers ──────────────────────────────────────────────────────
 
@@ -124,12 +122,6 @@ contract VeriChainRegistry {
         if (documentHash == bytes32(0)) revert InvalidDocumentHash();
         if (riskScore > 100) revert InvalidRiskScore(riskScore);
         if (proofs[verificationId].exists) revert VerificationAlreadyExists(verificationId);
-<<<<<<< HEAD
-        // Core anti-double-tokenization rule: one on-chain proof per document.
-        if (documentVerifications[documentHash].length > 0)
-            revert DocumentAlreadyVerified(documentHash);
-=======
->>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
 
         // Store proof
         proofs[verificationId] = VerificationProof({
@@ -172,22 +164,6 @@ contract VeriChainRegistry {
     }
 
     /**
-<<<<<<< HEAD
-     * @notice True if this document already has an on-chain proof.
-     *         Used by the frontend to block re-tokenization before
-     *         prompting the wallet.
-     */
-    function isDocumentVerified(bytes32 documentHash)
-        external
-        view
-        returns (bool)
-    {
-        return documentVerifications[documentHash].length > 0;
-    }
-
-    /**
-=======
->>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
      * @notice Returns all verification IDs for a document hash.
      */
     function getDocumentVerifications(bytes32 documentHash)
@@ -238,3 +214,4 @@ contract VeriChainRegistry {
         emit OwnershipTransferred(previousOwner, newOwner);
     }
 }
+

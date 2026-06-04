@@ -48,7 +48,11 @@ export default function ExplorerPage() {
   return (
     <RootLayout>
       <div className="min-h-screen pt-24 pb-16">
+<<<<<<< HEAD
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
+=======
+        <div className="max-w-6xl mx-auto px-6">
+>>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
 
           {/* Header */}
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
@@ -126,7 +130,11 @@ export default function ExplorerPage() {
           {loading ? (
             <div className="space-y-3">
               {[...Array(3)].map((_, i) => (
+<<<<<<< HEAD
                 <GlassCard key={i} className="p-5 h-24 animate-pulse"></GlassCard>
+=======
+                <GlassCard key={i} className="p-5 h-24 animate-pulse" />
+>>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
               ))}
             </div>
           ) : error ? (

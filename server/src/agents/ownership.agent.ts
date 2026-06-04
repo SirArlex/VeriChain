@@ -33,7 +33,11 @@ export class OwnershipAgent extends BaseAgent {
     if (GeminiService.isConfigured() && extractedText.length > 50) {
       const systemPrompt = `You are a real estate title examiner and ownership chain validator. Return ONLY valid JSON.`;
 
+<<<<<<< HEAD
       const userContent = `Document text: ${extractedText.slice(0, 6000)}
+=======
+      const userContent = `Document text: ${extractedText.slice(0, 800)}
+>>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
 Rule finding: ${ownershipRule?.detail ?? 'N/A'}
 
 Return this exact JSON structure:
@@ -41,7 +45,11 @@ Return this exact JSON structure:
   "ownershipChainComplete": false,
   "partiesIdentified": ["Name (role)", "Name (role)"],
   "inconsistencies": ["inconsistency 1", "inconsistency 2"],
+<<<<<<< HEAD
   "explanation": "A detailed multi-part analysis (4-6 sentences). First identify the specific parties found in the document (name the grantor and grantee exactly as written) and describe the chain of title. Then assess completeness: cite any gaps, missing transfer language, unclear party identification, or inconsistencies, quoting the relevant text. Finally explain the implications for tokenization readiness and what would need to be resolved before this asset could be safely tokenized. Reference actual document content rather than speaking generically.",
+=======
+  "explanation": "3-4 sentences describing the ownership chain findings, which parties were identified, what gaps or inconsistencies exist, and what the implications are for tokenization readiness.",
+>>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
   "flags": ["FLAG_1"],
   "ownershipScore": 30
 }`;

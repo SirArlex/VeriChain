@@ -66,6 +66,7 @@ contract VeriChainRegistryTest is Test {
     }
 
     function test_DocumentVerificationsIndex() public {
+<<<<<<< HEAD
         // One document gets exactly one on-chain proof.
         registry.storeVerification(DOC_HASH, 25, VeriChainRegistry.VerificationStatus.COMPLETED, AGENT_HASH, "ver-001");
 
@@ -94,6 +95,15 @@ contract VeriChainRegistryTest is Test {
         assertTrue(registry.isDocumentVerified(DOC_HASH));
         assertTrue(registry.isDocumentVerified(otherDoc));
         assertEq(registry.totalVerifications(), 2);
+=======
+        registry.storeVerification(DOC_HASH, 25, VeriChainRegistry.VerificationStatus.COMPLETED, AGENT_HASH, "ver-001");
+        registry.storeVerification(DOC_HASH, 30, VeriChainRegistry.VerificationStatus.COMPLETED, AGENT_HASH, "ver-002");
+
+        string[] memory verIds = registry.getDocumentVerifications(DOC_HASH);
+        assertEq(verIds.length, 2);
+        assertEq(verIds[0], "ver-001");
+        assertEq(verIds[1], "ver-002");
+>>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
     }
 
     function test_PauseUnpause() public {

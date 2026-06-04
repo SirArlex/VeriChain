@@ -2,7 +2,11 @@ import { motion } from 'framer-motion';
 import { clsx } from 'clsx';
 
 interface GlassCardProps {
+<<<<<<< HEAD
   children?: React.ReactNode;
+=======
+  children: React.ReactNode;
+>>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
   className?: string;
   hover?: boolean;
   glow?: 'blue' | 'cyan' | 'green' | 'red' | 'none';
@@ -17,6 +21,13 @@ const glowMap = {
   none: '',
 };
 
+<<<<<<< HEAD
+=======
+/**
+ * Glassmorphism card used throughout the UI.
+ * Supports hover glow effects and optional click handler.
+ */
+>>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
 export default function GlassCard({
   children,
   className = '',

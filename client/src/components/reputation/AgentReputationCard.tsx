@@ -1,8 +1,14 @@
 import { motion } from 'framer-motion';
+<<<<<<< HEAD
 import { CheckCircle, XCircle, Clock, Flag, TrendingUp, Fingerprint, ExternalLink } from 'lucide-react';
 import { AgentReputationScore } from '../../types/reputation';
 import { AgentName } from '../../types';
 import { AGENT_IDS, agentIdentityUrl } from '../../utils/erc8004';
+=======
+import { CheckCircle, XCircle, Clock, Flag, TrendingUp } from 'lucide-react';
+import { AgentReputationScore } from '../../types/reputation';
+import { AgentName } from '../../types';
+>>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
 import GlassCard from '../ui/GlassCard';
 import Badge from '../ui/Badge';
 
@@ -35,9 +41,12 @@ export default function AgentReputationCard({ reputation, index }: AgentReputati
   const meta = AGENT_META[reputation.agentName];
   const c = colorMap[meta.color];
 
+<<<<<<< HEAD
   const agentId = AGENT_IDS[reputation.agentName];
   const identityUrl = agentIdentityUrl(reputation.agentName);
 
+=======
+>>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
   const successRateColor = reputation.successRate >= 90 ? 'text-green-400'
     : reputation.successRate >= 70 ? 'text-amber-400' : 'text-red-400';
 
@@ -56,6 +65,7 @@ export default function AgentReputationCard({ reputation, index }: AgentReputati
             </div>
             <h3 className="text-white font-semibold">{meta.label}</h3>
             <p className="text-white/30 text-xs">{meta.description}</p>
+<<<<<<< HEAD
 
             {/* ERC-8004 on-chain identity */}
             {agentId !== null && identityUrl && (
@@ -71,6 +81,8 @@ export default function AgentReputationCard({ reputation, index }: AgentReputati
                 <ExternalLink className="w-2.5 h-2.5" />
               </a>
             )}
+=======
+>>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
           </div>
           <div className="text-right">
             <p className={`font-display text-2xl font-bold ${successRateColor}`}>

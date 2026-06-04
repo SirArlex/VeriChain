@@ -43,7 +43,11 @@ export class ComplianceAgent extends BaseAgent {
     if (GeminiService.isConfigured() && extractedText.length > 50) {
       const systemPrompt = `You are a tokenization compliance officer for real estate assets. Return ONLY valid JSON.`;
 
+<<<<<<< HEAD
       const userContent = `Document: ${extractedText.slice(0, 6000)}
+=======
+      const userContent = `Document: ${extractedText.slice(0, 800)}
+>>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
 Rule findings — Signature: ${signatureRule?.passed}, Property desc: ${propertyRule?.passed}, Monetary: ${monetaryRule?.passed}, Notary: ${notaryRule?.passed}
 
 Return this exact JSON structure:
@@ -52,7 +56,11 @@ Return this exact JSON structure:
   "missingRequirements": ["missing item 1", "missing item 2"],
   "completenessScore": 40,
   "regulatoryFlags": ["REG_FLAG_1"],
+<<<<<<< HEAD
   "explanation": "A detailed multi-part analysis (4-6 sentences). First enumerate which specific compliance requirements are satisfied (notarization, legal property description, valid dates, signatures, recording info) citing evidence from the text. Then enumerate what is missing or deficient, quoting or referencing the relevant gaps. Explain why each gap affects tokenization readiness and the regulatory risk it introduces. Finally give the concrete remediation steps required to bring this document to a tokenization-ready standard. Be specific to this document, not generic.",
+=======
+  "explanation": "3-4 sentences explaining the compliance assessment, what requirements are present or missing, why this affects tokenization readiness, and what steps would be needed to achieve compliance.",
+>>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
   "flags": ["FLAG_1", "FLAG_2"]
 }`;
 

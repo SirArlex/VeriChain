@@ -8,6 +8,7 @@ app_port: 7860
 pinned: false
 ---
 
+<<<<<<< HEAD
 # VeriChain — Autonomous AI Due-Diligence Infrastructure for Real World Assets
 
 VeriChain is AI-powered trust infrastructure for Real World Assets (RWAs). Users
@@ -305,3 +306,6 @@ first and the Risk Scoring agent aggregates everything into the final verdict.
 ## License
 
 MIT
+=======
+# VeriChain API
+>>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f

@@ -26,4 +26,7 @@ contracts/out/
 contracts/cache/
 contracts/broadcast/server/eng.traineddata
 *.traineddata
+<<<<<<< HEAD
 INTEGRATION_GUIDE.md
+=======
+>>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
