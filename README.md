@@ -8,24 +8,26 @@ app_port: 7860
 pinned: false
 ---
 
-<<<<<<< HEAD
 # VeriChain — Autonomous AI Due-Diligence Infrastructure for Real World Assets
 
 VeriChain is AI-powered trust infrastructure for Real World Assets (RWAs). Users
 upload real-estate documents; five specialized AI agents analyze them, detect
-inconsistencies and fraud indicators, compute a composite risk score, and store
-a tamper-proof verification proof on the Mantle blockchain before tokenization.
+inconsistencies and fraud indicators, compute a composite risk score, and write a
+tamper-proof verification proof to the Mantle blockchain — *before* the asset is
+tokenized.
 
 Built for the **Mantle Turing Test Hackathon 2026**.
 
 - **Live app:** https://veri-chain-client.vercel.app
 - **Backend API:** https://chinkinss-verichain.hf.space
+- **Verified contract:** https://sepolia.mantlescan.xyz/address/0x743e1166EEFa6b8ec22C077231f93a464F4a34E3#code
 - **Network:** Mantle Sepolia Testnet (chain ID `5003`)
 
 ---
 
 ## Table of Contents
 
+- [The Problem](#the-problem)
 - [Key Features](#key-features)
 - [Architecture](#architecture)
 - [Tech Stack](#tech-stack)
@@ -36,20 +38,39 @@ Built for the **Mantle Turing Test Hackathon 2026**.
 - [ERC-8004 Agent Identities](#erc-8004-agent-identities)
 - [API Reference](#api-reference)
 - [How the Verification Pipeline Works](#how-the-verification-pipeline-works)
+- [License](#license)
+
+---
+
+## The Problem
+
+Tokenizing a real-world asset like real estate today means uploading a document
+and asking investors to trust it. There is no automated, objective system that
+checks whether that document is genuine, complete, and fraud-free before it
+becomes a tradable on-chain token. Investors have no verifiable risk data,
+regulators have no audit trail, and nothing stops the same asset from being
+tokenized twice.
+
+VeriChain is the verification layer that sits *before* tokenization.
 
 ---
 
 ## Key Features
 
 - **Five specialized AI agents** — Metadata, Ownership, Compliance, Fraud
-  Detection, and Risk Scoring, each producing an independent, measurable result.
-- **Hybrid verification** — deterministic rule engine + Google Gemini reasoning,
-  so the AI explains and interprets but does not unilaterally decide fraud.
-- **On-chain proofs on Mantle** — document hash, risk score, status, and agent
-  outputs are written to the `VeriChainRegistry` contract.
-- **ERC-8004 agent identities** — each agent is registered as an on-chain
-  identity NFT on the official ERC-8004 Identity Registry on Mantle.
-- **Full transparency** — per-agent scores, raised flags, reasoning, execution
+  Detection, and Risk Scoring, each producing an independent, measurable result
+  with a detailed written explanation.
+- **Hybrid verification** — a deterministic rule engine runs first and cannot be
+  overridden by AI, so hallucination can never unilaterally decide fraud. AI adds
+  reasoning, anomaly explanations, and compliance interpretation on top.
+- **On-chain proofs on Mantle** — document hash, risk score, status, and a hash
+  of all agent outputs are written to the `VeriChainRegistry` contract.
+- **Contract-level double-tokenization prevention** — the contract enforces one
+  proof per document hash; re-verifying an already-proven asset is rejected
+  on-chain, where it cannot be bypassed.
+- **ERC-8004 agent identities** — each agent is registered as an on-chain identity
+  NFT on the official ERC-8004 Identity Registry on Mantle.
+- **Radical transparency** — per-agent scores, raised flags, reasoning, execution
   times, and a clickable on-chain audit trail are all surfaced in the UI.
 
 ---
@@ -61,8 +82,8 @@ Built for the **Mantle Turing Test Hackathon 2026**.
                           │          Frontend             │
                           │  React + Vite + TS (Vercel)   │
                           │                                │
-                          │  • Landing / Dashboard         │
-                          │  • Explorer / Agent Reputation │
+                          │  Landing / Dashboard /         │
+                          │  Explorer / Agent Reputation   │
                           └───────┬───────────────┬────────┘
                                   │               │
               AI services (REST)  │               │  Wallet (wagmi / viem)
@@ -76,7 +97,6 @@ Built for the **Mantle Turing Test Hackathon 2026**.
               │    pdf-parse)          │   │  • ERC-8004 Identity      │
               │  • Rule engine         │   │    Registry (agent NFTs)  │
               │  • 5 AI agents         │   └──────────────────────────┘
-              │  • Gemini integration  │
               │  • Risk aggregation    │
               └───────────┬────────────┘
                           │
@@ -89,10 +109,10 @@ Built for the **Mantle Turing Test Hackathon 2026**.
                    └──────────────┘
 ```
 
-**Architecture rule:** the frontend talks directly to smart contracts for all
+**Architecture rule:** the frontend talks directly to the smart contracts for all
 on-chain writes (the user's wallet signs). The backend never controls blockchain
-transactions — it handles OCR, Gemini calls, deterministic validation, risk
-scoring, agent orchestration, and MongoDB persistence.
+transactions — it handles OCR, AI agent orchestration, deterministic validation,
+risk scoring, and MongoDB persistence.
 
 A rendered diagram is available in [`docs/architecture.svg`](docs/architecture.svg).
 
@@ -106,7 +126,7 @@ A rendered diagram is available in [`docs/architecture.svg`](docs/architecture.s
 | Backend | Node.js, Express (MVC), TypeScript, Mongoose |
 | Database | MongoDB |
 | Blockchain | Solidity, Foundry, Mantle Network |
-| AI | Google Gemini |
+| AI | Multi-agent pipeline via OpenRouter |
 | OCR | Tesseract.js, pdf-parse |
 
 ---
@@ -117,11 +137,11 @@ A rendered diagram is available in [`docs/architecture.svg`](docs/architecture.s
 
 | Contract | Address |
 |---|---|
-| VeriChainRegistry (verification proofs) | `0x9A10454a5a40A85Cc8db2e6BDbEf1e9e0E9A8b39` |
+| VeriChainRegistry (verification proofs) | [`0x743e1166EEFa6b8ec22C077231f93a464F4a34E3`](https://sepolia.mantlescan.xyz/address/0x743e1166EEFa6b8ec22C077231f93a464F4a34E3#code) ✅ Verified |
 | ERC-8004 Identity Registry (official) | `0x8004A818BFB912233c491871b3d84c89A494BD9e` |
 | ERC-8004 Reputation Registry (official) | `0x8004B663056A597Dffe9eCcC1965A193B7388713` |
 
-> ⚠️ Set the **same** `VeriChainRegistry` address in both the backend
+> ⚠️ The same `VeriChainRegistry` address must be set in both the backend
 > (`VERICHAIN_CONTRACT_ADDRESS`) and the frontend (`VITE_CONTRACT_ADDRESS`).
 
 Explorer: https://sepolia.mantlescan.xyz
@@ -134,7 +154,7 @@ Explorer: https://sepolia.mantlescan.xyz
 
 - Node.js 20+
 - MongoDB connection string (Atlas or local)
-- Google Gemini API key
+- OpenRouter API key (https://openrouter.ai — free models available)
 - Foundry (for contracts) — https://getfoundry.sh
 - A funded Mantle Sepolia wallet (test MNT from a faucet)
 
@@ -176,10 +196,11 @@ npm run build
 NODE_ENV=development
 PORT=3001
 MONGODB_URI=<your mongodb connection string>
-GEMINI_API_KEY=<your gemini key>
+OPENROUTER_API_KEY=<your openrouter key>
+OPENROUTER_MODEL=openai/gpt-4o-mini
 MANTLE_RPC_URL=https://rpc.sepolia.mantle.xyz
 MANTLE_CHAIN_ID=5003
-VERICHAIN_CONTRACT_ADDRESS=<your VeriChainRegistry address>
+VERICHAIN_CONTRACT_ADDRESS=0x743e1166EEFa6b8ec22C077231f93a464F4a34E3
 ```
 
 **Frontend** (`client/.env`)
@@ -219,27 +240,15 @@ forge script script/Deploy.s.sol:Deploy \
   --broadcast --legacy
 ```
 
-### Verify on Mantle Explorer
-
-```bash
-forge verify-contract <ADDRESS> \
-  src/VeriChainRegistry.sol:VeriChainRegistry \
-  --chain 5003 \
-  --verifier blockscout \
-  --verifier-url https://explorer.sepolia.mantle.xyz/api \
-  --compiler-version 0.8.24 \
-  --num-of-optimizations 200
-```
-
 ### VeriChainRegistry interface
 
 | Function | Description |
 |---|---|
-| `storeVerification(...)` | Writes a verification proof (document hash, risk score, status, agent outputs) on-chain |
-| `getVerification(verificationId)` | Reads a stored proof |
-| `getDocumentVerifications(documentHash)` | All verifications for a document |
-| `getSubmitterVerifications(submitter)` | All verifications by an address |
-| `verificationExists(verificationId)` | Existence check |
+| `storeVerification(...)` | Writes a verification proof (document hash, risk score, status, agent outputs) on-chain. Reverts if the document already has a proof. |
+| `isDocumentVerified(documentHash)` | Returns true if a document already has an on-chain proof. |
+| `getVerification(verificationId)` | Reads a stored proof. |
+| `getDocumentVerifications(documentHash)` | All verifications for a document. |
+| `getSubmitterVerifications(submitter)` | All verifications by an address. |
 
 Emits `VerificationStored` on each write.
 
@@ -290,22 +299,21 @@ Base URL: `https://chinkinss-verichain.hf.space/api`
 Upload document
   → OCR / PDF text extraction
   → Deterministic rule engine (dates, ownership, duplicates, metadata)
-  → 5 AI agents run (Gemini-backed reasoning + scoring)
+  → 5 AI agents run (reasoning + scoring via OpenRouter)
   → Risk aggregation (composite score + risk level)
   → MongoDB persistence (documents, verifications, agent_logs)
   → Result returned to UI
   → Verification proof written on-chain (Mantle) automatically when a wallet is connected
+  → Re-tokenization of an already-verified document is blocked at the contract level
 ```
 
-Gemini provides reasoning, anomaly explanations, compliance summaries, and fraud
+AI provides reasoning, anomaly explanations, compliance summaries, and fraud
 interpretation. It does not unilaterally decide fraud — deterministic checks run
-first and the Risk Scoring agent aggregates everything into the final verdict.
+first and the Risk Scoring agent aggregates everything into the final weighted
+verdict.
 
 ---
 
 ## License
 
 MIT
-=======
-# VeriChain API
->>>>>>> bc38e5bb1578930cca919b9c6261805062e3c71f
