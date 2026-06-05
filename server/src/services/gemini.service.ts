@@ -19,7 +19,7 @@ export class GeminiService {
 
     // 40s timeout so a slow model can't block the pipeline indefinitely.
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 40000);
+    const timeout = setTimeout(() => controller.abort(), 60000);
 
     try {
       const res = await fetch(GeminiService.ENDPOINT, {
